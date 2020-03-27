@@ -17,22 +17,13 @@
  */
 
 #include "common.h"
-
+#define DELAY     (0x10)
 int main(void){
-    GPIO->PDDR = 0xff;
-    while(1){
-        for(int i=0; i< 0x1000; i++){
-            GPIO->PTOR = 0x1;
-            for(int j=0; j< 0x1000; j++){
-                GPIO->PTOR = 0x2;
-                for(int k=0; j< 0x1000; k++){
-                    GPIO->PTOR = 0x4;
-                    for(int l=0; l< 0x1000; l++){
-                        GPIO->PTOR = 0x8;
-                    }
-                }
-            }
-        }
+    UART->DIV = 3;
+    UART->TXCTRL |= UART_TXEN;
+    for(int i = 0; i < 100; i++){
+    while (UART->TXFIFO & 0x80000000);
+      UART->TXFIFO = 'L';
     }
     return 0;
 }

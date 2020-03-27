@@ -46,15 +46,16 @@ module testbench;
 
 	chip chip(
 		.clk      (clk      ),
-		.resetn   (reset_n  )
+		.resetn   (reset_n  ),
+		.uart_rx  (uart_tx),
+		.uart_tx  (uart_tx)
 	);
-	// uart_vip #(
-	// 	.CLK_HZ (100000000),
-	// 	.BAUDRATE(25000000)
-	// ) uart (
-	// 	.clk (clk),
-	// 	.uart_rx(vip_uart_rx)
-	// );
-    // assign vip_uart_tx = vip_uart_rx; // Loop back for serial module
+	uart_vip #(
+		.CLK_HZ (100000000),
+		.BAUDRATE(25000000)
+	) uart (
+		.clk (clk),
+		.uart_rx(uart_tx)
+	);
     
 endmodule

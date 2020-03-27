@@ -23,6 +23,8 @@ module chip #(
 )(
 	input clk,
 	input resetn,
+	input uart_rx,
+	output uart_tx,
     output [7:0]pads
 );
 	parameter [0:0] BARREL_SHIFTER = 1;
@@ -53,6 +55,15 @@ module chip #(
 	assign soc_clk = clk;
 	assign soc_resetn = resetn;
 
+	// SRAM
+	wire sram_mem_valid;
+	reg sram_mem_ready;
+    always @(posedge clk) begin
+        sram_mem_ready <= sram_mem_valid;
+    end
+	wire [31:0] sram_mem_rdata;
+	assign sram_mem_valid = mem_valid && (mem_addr[31:24] == 8'h00);
+
     // GPIO
 	wire gpio_mem_valid;
 	wire gpio_mem_ready;
@@ -71,20 +82,20 @@ module chip #(
         end // for
     endgenerate
 
-	// SRAM
-	wire sram_mem_valid;
-	reg sram_mem_ready;
-    always @(posedge clk) begin
-        sram_mem_ready <= sram_mem_valid;
-    end
-	wire [31:0] sram_mem_rdata;
-	assign sram_mem_valid = mem_valid && (mem_addr[31:24] == 8'h00);
+
+    // UART 
+	wire uart_mem_valid;
+	wire uart_mem_ready;
+	wire [31:0] uart_mem_rdata;
+	assign uart_mem_valid = mem_valid && (mem_addr[21] == 1'b1);
 
 	assign mem_rdata = ({32{sram_mem_ready}} & sram_mem_rdata)
 		| ({32{gpio_mem_ready}} & gpio_mem_rdata)
+		//| ({32{uart_mem_ready}} & uart_mem_rdata)
         ;
 	assign mem_ready = sram_mem_ready
 		| gpio_mem_ready
+		//| uart_mem_ready
         ;
 	// Interrupt request
 	wire [31:0] soc_irq;
@@ -143,5 +154,24 @@ module chip #(
     	.mem_ready(gpio_mem_ready),
     	.mem_rdata(gpio_mem_rdata)
 	);
+
+    sirv_uart_top uart(
+        .clk(soc_clk),
+        .rst_n(soc_resetn),
+
+        .i_icb_cmd_valid(uart_mem_valid),
+        .i_icb_cmd_ready(uart_mem_ready),
+        .i_icb_cmd_addr(mem_addr), 
+        .i_icb_cmd_read(4'b0 == mem_wstrb), 
+        .i_icb_cmd_wdata(mem_wdata),
+
+        .i_icb_rsp_valid(),
+        .i_icb_rsp_ready(1'b1),
+        .i_icb_rsp_rdata(uart_mem_rdata),
+
+        .io_interrupts_0_0(),                
+        .io_port_txd(uart_tx),
+        .io_port_rxd(uart_rx)
+    );
 	
 endmodule
