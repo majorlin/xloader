@@ -1,0 +1,84 @@
+#--  Synopsys, Inc.
+#--  Version P-2019.03-SP1
+#--  Project file xloader.prj
+#--  Written on Thu Mar 26 16:38:29 2020
+
+
+#project files
+add_file -verilog "../rtl/chip.v"
+add_file -verilog "../rtl/gpio.v"
+add_file -verilog "../rtl/sram_byte_en_model.v"
+add_file -verilog "../rtl/picorv32.v"
+add_file -constraint "clock.fdc"
+
+
+
+#implementation: "xloader_syn"
+impl -add xloader_syn -type fpga
+
+#
+#implementation attributes
+
+set_option -vlog_std sysv
+set_option -project_relative_includes 1
+
+#xloader_pr attributes
+set_option -job xloader_pr -add par
+
+#device options
+set_option -technology SPARTAN6
+set_option -part XC6SLX16
+set_option -package FTG256
+set_option -speed_grade -2
+set_option -part_companion ""
+
+#compilation/mapping options
+set_option -use_fsm_explorer 0
+set_option -top_module "chip"
+
+# hdl_compiler_options
+set_option -distributed_compile 0
+set_option -hdl_strict_syntax 0
+
+# mapper_without_write_options
+set_option -frequency auto
+set_option -srs_instrumentation 1
+
+# mapper_options
+set_option -write_verilog 0
+set_option -write_vhdl 0
+
+# xilinx_options
+set_option -rw_check_on_ram 1
+set_option -optimize_ngc 1
+
+# Xilinx Spartan3
+set_option -run_prop_extract 1
+set_option -maxfan 1000
+set_option -disable_io_insertion 0
+set_option -pipe 1
+set_option -retiming 1
+set_option -update_models_cp 0
+set_option -fix_gated_and_generated_clocks 1
+set_option -no_sequential_opt 0
+
+# Xilinx Spartan6
+set_option -enable_prepacking 1
+
+# sequential_optimization_options
+set_option -symbolic_fsm_compiler 1
+
+# Compiler Options
+set_option -compiler_compatible 0
+set_option -resource_sharing 1
+set_option -multi_file_compilation_unit 1
+
+# Compiler Options
+set_option -auto_infer_blackbox 0
+
+#automatic place and route (vendor) options
+set_option -write_apr_constraint 1
+
+#set result format/file last
+project -result_file "xloader_syn/xloader.edf"
+impl -active "xloader_syn"
