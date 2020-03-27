@@ -21,9 +21,7 @@
 int main(void){
     UART->DIV = 3;
     UART->TXCTRL |= UART_TXEN;
-    for(int i = 0; i < 100; i++){
-    while (UART->TXFIFO & 0x80000000);
-      UART->TXFIFO = 'L';
-    }
+    print("LIN MINGJIE\r\n");
+    print_hex(123456);
     return 0;
 }

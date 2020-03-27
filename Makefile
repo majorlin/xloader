@@ -19,6 +19,7 @@ INCLUDE += -I./code//inc
 INCLUDE += -I./code/cpu
 C_SRC += $(wildcard ./code/src/*.c)
 C_SRC += $(wildcard ./code/cpu/*.c)
+C_SRC += $(wildcard ./code/inc/*.c)
 A_SRC += ./code/cpu/start.S
 
 OBJS = $(addprefix $(BUILD_PATH)/,$(addsuffix .o,$(basename $(A_SRC))))
