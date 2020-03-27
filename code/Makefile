@@ -16,7 +16,7 @@
 # ******************************************************************************
 # 
 
-TOOLCHAIN ?= riscv-none-embed
+TOOLCHAIN ?= riscv32-unknown-elf
 AS = $(TOOLCHAIN)-as
 LD = $(TOOLCHAIN)-ld
 CC = $(TOOLCHAIN)-gcc
