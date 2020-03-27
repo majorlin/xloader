@@ -41,14 +41,6 @@ typedef struct {
 #define GPIO_BASE                             (0x00100000u)
 #define GPIO                                 ((GPIO_Type *)GPIO_BASE)
 
-/* Register offsets */
-#define UART_REG_TXFIFO         0x00
-#define UART_REG_RXFIFO         0x04
-#define UART_REG_TXCTRL         0x08
-#define UART_REG_RXCTRL         0x0c
-#define UART_REG_IE             0x10
-#define UART_REG_IP             0x14
-#define UART_REG_DIV            0x18
 typedef struct {
   __IO  uint32_t TXFIFO;                  /**< offset: 0x0 */
   __IO  uint32_t RXFIFO;                  /**< offset: 0x4 */
@@ -60,16 +52,16 @@ typedef struct {
 } UART_Type;
 
 /* TXCTRL register */
-#define UART_TXEN                         0x1
-#define UART_TXWM(x)                      (((x) & 0xffff) << 16)
+#define UART_TXCTRL_TXEN_MASK             0x1
+#define UART_TXCTRL_TXWM(x)               (((x) & 0xffff) << 16)
 
 /* RXCTRL register */
-#define UART_RXEN                         0x1
-#define UART_RXWM(x)                      (((x) & 0xffff) << 16)
+#define UART_RXCTRL_RXEN_MASK             0x1
+#define UART_RXCTRL_RXWM(x)               (((x) & 0xffff) << 16)
 
 /* IP register */
-#define UART_IP_TXWM                      0x1
-#define UART_IP_RXWM                      0x2
+#define UART_IP_TXWM_MASK                 0x1
+#define UART_IP_RXWM_MASK                 0x2
 
 #define UART_BASE                         (0x00200000u)
 #define UART                              ((UART_Type *)UART_BASE)

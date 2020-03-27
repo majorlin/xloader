@@ -25,6 +25,15 @@ module chip #(
 	input resetn,
 	input uart_rx,
 	output uart_tx,
+    output qspi_sck,
+    inout qspi_dq0,
+    inout qspi_dq1,
+    inout qspi_dq2,
+    inout qspi_dq3,
+    output qspi_cs0,
+    output qspi_cs1,
+    output qspi_cs2,
+    output qspi_cs3,
     output [7:0]pads
 );
 	parameter [0:0] BARREL_SHIFTER = 1;

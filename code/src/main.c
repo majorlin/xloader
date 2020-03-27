@@ -20,7 +20,7 @@
 #define DELAY     (0x10)
 int main(void){
     UART->DIV = 3;
-    UART->TXCTRL |= UART_TXEN;
+    UART->TXCTRL |= UART_TXCTRL_TXEN_MASK;
     print("LIN MINGJIE\r\n");
     print_hex(123456);
     return 0;
