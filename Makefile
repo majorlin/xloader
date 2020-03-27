@@ -45,7 +45,6 @@ $(BUILD_PATH)/testbench.vvp: $(RTL_SRC)
 
 clean:
 	rm -rf testbench.vvp testbench.vcd $(BUILD_PATH)
-	cd code && make clean
 
 $(TARGET).elf: $(OBJS) 
 	@echo	
