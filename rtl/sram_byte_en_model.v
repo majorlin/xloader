@@ -27,7 +27,7 @@ module sram_byte_en_model #(
     parameter NB_COL = 4,                           // Specify number of columns (number of bytes)
     parameter COL_WIDTH = 8,                        // Specify column width (byte width, typically 8 or 9)
     parameter RAM_DEPTH = 8192,                     // Specify RAM depth (number of entries)
-    parameter INIT_FILE = "/home/major/work/xloader/fpga/firmware.hex"  // Specify name/location of RAM initialization file if using one (leave blank if not)
+    parameter INIT_FILE = "./build/firmware.hex"  // Specify name/location of RAM initialization file if using one (leave blank if not)
 ) (
     input [clogb2(RAM_DEPTH-1)-1:0] addra,  // Address bus, width determined from RAM_DEPTH
     input [(NB_COL*COL_WIDTH)-1:0] dina,  // RAM input data

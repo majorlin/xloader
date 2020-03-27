@@ -23,6 +23,17 @@ module chip #(
 )(
 	input clk,
 	input resetn,
+	input uart_rx,
+	output uart_tx,
+    output qspi_sck,
+    inout qspi_dq0,
+    inout qspi_dq1,
+    inout qspi_dq2,
+    inout qspi_dq3,
+    output qspi_cs0,
+    output qspi_cs1,
+    output qspi_cs2,
+    output qspi_cs3,
     output [7:0]pads
 );
 	parameter [0:0] BARREL_SHIFTER = 1;
@@ -53,11 +64,20 @@ module chip #(
 	assign soc_clk = clk;
 	assign soc_resetn = resetn;
 
+	// SRAM
+	wire sram_mem_valid;
+	reg sram_mem_ready;
+    always @(posedge clk) begin
+        sram_mem_ready <= sram_mem_valid;
+    end
+	wire [31:0] sram_mem_rdata;
+	assign sram_mem_valid = mem_valid && (mem_addr[31:24] == 8'h00);
+
     // GPIO
 	wire gpio_mem_valid;
 	wire gpio_mem_ready;
 	wire [31:0] gpio_mem_rdata;
-	assign gpio_mem_valid = mem_valid && (mem_addr[20] == 1'b1);
+	assign gpio_mem_valid = mem_valid && (mem_addr[20]);
 
 	wire [TOTAL_GPIOS-1:0] gpio_do;
 	wire [TOTAL_GPIOS-1:0] gpio_obe;
@@ -71,20 +91,28 @@ module chip #(
         end // for
     endgenerate
 
-	// SRAM
-	wire sram_mem_valid;
-	reg sram_mem_ready;
-    always @(posedge clk) begin
-        sram_mem_ready <= sram_mem_valid;
-    end
-	wire [31:0] sram_mem_rdata;
-	assign sram_mem_valid = mem_valid && (mem_addr[31:24] == 8'h00);
+
+    // UART 
+	wire uart_mem_valid;
+	wire uart_mem_ready;
+	wire [31:0] uart_mem_rdata;
+	assign uart_mem_valid = mem_valid && (mem_addr[21]);
+
+    // QSPI
+	wire qspi_mem_valid;
+	wire qspi_mem_ready;
+	wire [31:0] qspi_mem_rdata;
+	assign qspi_mem_valid = mem_valid && (mem_addr[22]);
 
 	assign mem_rdata = ({32{sram_mem_ready}} & sram_mem_rdata)
 		| ({32{gpio_mem_ready}} & gpio_mem_rdata)
+		| ({32{uart_mem_ready}} & uart_mem_rdata)
+		| ({32{qspi_mem_ready}} & qspi_mem_rdata)
         ;
 	assign mem_ready = sram_mem_ready
 		| gpio_mem_ready
+		| uart_mem_ready
+		| qspi_mem_ready
         ;
 	// Interrupt request
 	wire [31:0] soc_irq;
@@ -143,5 +171,84 @@ module chip #(
     	.mem_ready(gpio_mem_ready),
     	.mem_rdata(gpio_mem_rdata)
 	);
+
+    assign uart_mem_ready = uart_mem_valid;
+    sirv_uart_top uart(
+        .clk(soc_clk),
+        .rst_n(soc_resetn),
+
+        .i_icb_cmd_valid(uart_mem_valid),
+        .i_icb_cmd_ready(),
+        .i_icb_cmd_addr(mem_addr), 
+        .i_icb_cmd_read(4'b0 == mem_wstrb), 
+        .i_icb_cmd_wdata(mem_wdata),
+
+        .i_icb_rsp_valid(),
+        .i_icb_rsp_ready(1'b1),
+        .i_icb_rsp_rdata(uart_mem_rdata),
+
+        .io_interrupts_0_0(),                
+        .io_port_txd(uart_tx),
+        .io_port_rxd(uart_rx)
+    );
+
+    wire qspi_dq0_i;
+    wire qspi_dq0_o;
+    wire qspi_dq0_oe;
+    assign qspi_dq0_i = qspi_dq0;
+    assign qspi_dq0 = qspi_dq0_oe ? qspi_dq0_o : 1'bz;
+
+    wire qspi_dq1_i;
+    wire qspi_dq1_o;
+    wire qspi_dq1_oe;
+    assign qspi_dq1_i = qspi_dq1;
+    assign qspi_dq1 = qspi_dq1_oe ? qspi_dq1_o : 1'bz;
+
+    wire qspi_dq2_i;
+    wire qspi_dq2_o;
+    wire qspi_dq2_oe;
+    assign qspi_dq2_i = qspi_dq2;
+    assign qspi_dq2 = qspi_dq2_oe ? qspi_dq2_o : 1'bz;
+
+    wire qspi_dq3_i;
+    wire qspi_dq3_o;
+    wire qspi_dq3_oe;
+    assign qspi_dq3_i = qspi_dq3;
+    assign qspi_dq3 = qspi_dq3_oe ? qspi_dq3_o : 1'bz;
+
+    assign qspi_mem_ready = qspi_mem_valid;
+    sirv_qspi_4cs_top qspi(
+        .clk(soc_clk),
+        .rst_n(soc_resetn),
+
+        .i_icb_cmd_valid(qspi_mem_valid),
+        .i_icb_cmd_ready(),
+        .i_icb_cmd_addr(mem_addr), 
+        .i_icb_cmd_read(4'b0 == mem_wstrb), 
+        .i_icb_cmd_wdata(mem_wdata),
+
+        .i_icb_rsp_valid(),
+        .i_icb_rsp_ready(1'b1),
+        .i_icb_rsp_rdata(qspi_mem_rdata),
+
+        .io_port_sck(qspi_sck),
+        .io_port_dq_0_i (qspi_dq0_i),
+        .io_port_dq_0_o (qspi_dq0_o),
+        .io_port_dq_0_oe(qspi_dq0_oe),
+        .io_port_dq_1_i (qspi_dq1_i),
+        .io_port_dq_1_o (qspi_dq1_o),
+        .io_port_dq_1_oe(qspi_dq1_oe),
+        .io_port_dq_2_i (qspi_dq2_i),
+        .io_port_dq_2_o (qspi_dq2_o),
+        .io_port_dq_2_oe(qspi_dq2_oe),
+        .io_port_dq_3_i (qspi_dq3_i),
+        .io_port_dq_3_o (qspi_dq3_o),
+        .io_port_dq_3_oe(qspi_dq3_oe),
+        .io_port_cs_0(qspi_cs0),
+        .io_port_cs_1(qspi_cs1),
+        .io_port_cs_2(qspi_cs2),
+        .io_port_cs_3(qspi_cs3),
+        .io_tl_i_0_0()
+    );
 	
 endmodule

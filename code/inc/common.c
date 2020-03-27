@@ -16,22 +16,29 @@
  * ******************************************************************************
  */
 
+#include "common.h"
 
-#ifndef __COMMON_H_
-#define __COMMON_H_
+void outchar(const char c){
+    while (UART->TXFIFO & 0x80000000);
+    UART->TXFIFO = c;
+}
 
-#include <stdint.h>
-#include <stdio.h>
-#include <stdlib.h>
-#include <assert.h>
-#include "cpu.h"
+void print(const char *s){
+    while(*s){
+        outchar(*s++);
+    } 
+}
 
-typedef void (*p_isr_fun)(void);
-
-void install_interrupt(p_isr_fun func, int irq_num);
-void sysinit(void);
-void outchar(const char c);
-void print(const char *s);
-void print_hex(uint32_t hex);
-
-#endif /* __COMMON_H_ */
+void print_hex(uint32_t hex)
+{
+  char towrite;
+  char digit;
+  print("0x");
+  int j;
+  for (int i = sizeof(uint32_t) * 2 ; i > 0; i--) {
+    j = i - 1;
+    digit = ((hex & (0xF << (j*4))) >> (j*4));
+    towrite = digit < 0xA ? ('0' + digit) : ('A' +  (digit - 0xA));
+    outchar(towrite);
+  }
+}
