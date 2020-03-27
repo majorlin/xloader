@@ -33,7 +33,7 @@ module gpio #(
     output [31:0]mem_rdata
 );
     reg [TOTAL_GPIOS-1:0] PDOR;
-    reg [TOTAL_GPIOS-11:0] PDDR;
+    reg [TOTAL_GPIOS-1:0] PDDR;
     // write access
     always @(posedge mem_clk or negedge rst_n) begin
         if(!rst_n) begin

@@ -35,7 +35,7 @@ module chip #(
 	parameter [ 0:0] REGS_INIT_ZERO = 1;
 
 	parameter integer MEM_WORDS = 32 * 1024 / 4;
-	parameter [31:0] STACKADDR = (32 * 1024);       // end of memory
+	parameter [31:0] STACKADDR = (31 * 1024);       // end of memory
 	parameter [31:0] PROGADDR_RESET = 32'h 0000_0000; // ROM start address
 	parameter [31:0] PROGADDR_IRQ = 32'h 0000_0060;
     
@@ -66,8 +66,8 @@ module chip #(
     generate
         genvar i;
         for (i = 0; i < TOTAL_GPIOS; i = i+1) begin: input_mux
-            assign gpio_ind[i] = gpio_obe[i] ? gpio_do : pads[i];
-            assign pads[i] = gpio_obe[i] ? gpio_do : 1'bz;
+            assign gpio_ind[i] = gpio_obe[i] ? gpio_do[i] : pads[i];
+            assign pads[i] = gpio_obe[i] ? gpio_do[i] : 1'bz;
         end // for
     endgenerate
 

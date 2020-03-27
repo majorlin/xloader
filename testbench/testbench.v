@@ -28,12 +28,11 @@ module testbench;
 	initial begin
 		$dumpfile("testbench.vcd");
 		$dumpvars(0, testbench);
-        //$readmemh("./testbench/flash_fw.hex", testbench.chip.rom.rom.mem);
         reset_n = 0;
-        #16;
+        #160;
         reset_n = 1;
 
-		repeat (18) begin
+		repeat (2) begin
 			repeat (5000) @(posedge clk);
 		end
 		$finish;
