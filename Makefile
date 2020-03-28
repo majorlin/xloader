@@ -1,8 +1,7 @@
 MKDIR=mkdir -p
 BUILD_PATH = build
 RTL_SRC += $(wildcard ./rtl/*.v)
-RTL_SRC += ./testbench/testbench.v
-RTL_SRC += ./testbench/uart_vip.v
+RTL_SRC += $(wildcard ./testbench/*.v)
 
 TOOLCHAIN ?= riscv-none-embed
 AS = $(TOOLCHAIN)-as

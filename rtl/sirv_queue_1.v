@@ -28,6 +28,15 @@ module sirv_queue_1(
   output [3:0] io_count
 );
   reg [7:0] ram [0:7];
+// changed for simulation
+generate
+    begin: init_ram_to_zero
+        integer ram_index;
+        initial
+            for (ram_index = 0; ram_index < 8; ram_index = ram_index + 1)
+            ram[ram_index] = 8'h00;
+    end
+endgenerate
   reg [31:0] GEN_0;
   wire [7:0] ram_T_51_data;
   wire [2:0] ram_T_51_addr;

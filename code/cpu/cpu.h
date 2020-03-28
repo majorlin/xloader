@@ -5,7 +5,7 @@
  * Created Date: Tuesday, February 18th 2020, 1:22:07 pm
  * Author: Major Lin
  * -----
- * Last Modified: Wed Feb 26 2020
+ * Last Modified: Sat Mar 28 2020
  * Modified By: Major Lin
  * -----
  * 
@@ -66,4 +66,30 @@ typedef struct {
 #define UART_BASE                         (0x00200000u)
 #define UART                              ((UART_Type *)UART_BASE)
 
+typedef struct {
+  __IO  uint32_t SCKDIV;                  /**< offset: 0x0 */
+  __IO  uint32_t SCKMODE;                 /**< offset: 0x4 */
+  __IO  uint8_t  reserved_0[8];           /**< offset: 0x8 */
+  __IO  uint32_t CSID;                    /**< offset: 0x10 */
+  __IO  uint32_t CSDEF;                   /**< offset: 0x14 */
+  __IO  uint32_t CSMODE;                  /**< offset: 0x18 */
+  __IO  uint8_t  reserved_1[12];          /**< offset: 0x1c - 0x24 */
+  __IO  uint32_t DELAY0;                  /**< offset: 0x28 */
+  __IO  uint32_t DELAY1;                  /**< offset: 0x2C */
+  __IO  uint8_t  reserved_2[16];          /**< offset: 0x30 - 0x3c */
+  __IO  uint32_t FMT;                     /**< offset: 0x40 */
+  __IO  uint8_t  reserved_3[4];           /**< offset: 0x44 */
+  __IO  uint32_t TXDATA;                  /**< offset: 0x48 */
+  __IO  uint32_t RXDATA;                  /**< offset: 0x4C */
+  __IO  uint32_t TXMARK;                  /**< offset: 0x50 */
+  __IO  uint32_t RXMARK;                  /**< offset: 0x54 */
+  __IO  uint8_t  reserved_4[8];           /**< offset: 0x58 0x5C */
+  __IO  uint32_t FCTRL;                   /**< offset: 0x60 */
+  __IO  uint32_t FFMT;                    /**< offset: 0x64 */
+  __IO  uint8_t  reserved_5[8];           /**< offset: 0x68 0x6C */
+  __IO  uint32_t IE;                      /**< offset: 0x70 */
+  __IO  uint32_t IP;                      /**< offset: 0x74 */
+} QSPI_Type;
+#define QSPI_BASE                         (0x00400000u)
+#define QSPI                              ((QSPI_Type *)QSPI_BASE)
 #endif /* __CPU_H_ */
