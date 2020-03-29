@@ -90,6 +90,21 @@ typedef struct {
   __IO  uint32_t IE;                      /**< offset: 0x70 */
   __IO  uint32_t IP;                      /**< offset: 0x74 */
 } QSPI_Type;
+/* FMT register */
+#define QSPI_FMT_PROTO_SHIFT              (0x00)
+#define QSPI_FMT_PROTO_MASK               (0x03 << QSPI_FMT_PROTO_SHIFT)
+#define QSPI_FMT_PROTO(x)                 (((x) << QSPI_FMT_PROTO_SHIFT) & QSPI_FMT_PROTO_MASK)
+
+#define QSPI_FMT_ENDIAN_SHIFT             (2)
+#define QSPI_FMT_ENDIAN_MASK              (0x1U << QSPI_FMT_ENDIAN_SHIFT)
+
+#define QSPI_FMT_DIR_SHIFT                (3)
+#define QSPI_FMT_DIR_MASK                 (0x1U << QSPI_FMT_DIR_SHIFT)
+
+#define QSPI_FMT_LEN_SHIFT                (16)
+#define QSPI_FMT_LEN_MASK                 (0x0F << QSPI_FMT_LEN_SHIFT)
+#define QSPI_FMT_LEN(x)                   (((x) << QSPI_FMT_LEN_SHIFT) & QSPI_FMT_LEN_MASK)
+
 #define QSPI_BASE                         (0x00400000u)
 #define QSPI                              ((QSPI_Type *)QSPI_BASE)
 #endif /* __CPU_H_ */

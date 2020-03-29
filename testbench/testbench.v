@@ -32,7 +32,7 @@ module testbench;
         #160;
         reset_n = 1;
 
-        repeat (2) begin
+        repeat (88) begin
             repeat (5000) @(posedge clk);
         end
         $finish;

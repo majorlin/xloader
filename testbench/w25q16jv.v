@@ -1199,22 +1199,22 @@ begin
 
    
 	status_reg = 0;             		// Status register default OTP values.
-  status_reg[`QE] = status_reg_otp[`QE];
-  status_reg[`SRP1] = status_reg_otp[`SRP1];
-  status_reg[`SRP0] = status_reg_otp[`SRP0];
-  status_reg[`BP0] = status_reg_otp[`BP0];
-  status_reg[`BP1] = status_reg_otp[`BP1];
-  status_reg[`BP2] = status_reg_otp[`BP2];
-  status_reg[`TB] = status_reg_otp[`TB];
-  status_reg[`SEC] = status_reg_otp[`SEC];
-  status_reg[`CMP] = status_reg_otp[`CMP];
-  status_reg[`WPS] = status_reg_otp[`WPS];
-  status_reg[`DRV0] = status_reg_otp[`DRV0];
-  status_reg[`DRV1] =  status_reg_otp[`DRV1];
-  status_reg[`HLD_RST] = status_reg_otp[`HLD_RST];
-  status_reg[`LB1] = status_reg_otp[`LB1];
-  status_reg[`LB2] = status_reg_otp[`LB2];
-  status_reg[`LB3] = status_reg_otp[`LB3];	
+  // status_reg[`QE] = status_reg_otp[`QE];
+  // status_reg[`SRP1] = status_reg_otp[`SRP1];
+  // status_reg[`SRP0] = status_reg_otp[`SRP0];
+  // status_reg[`BP0] = status_reg_otp[`BP0];
+  // status_reg[`BP1] = status_reg_otp[`BP1];
+  // status_reg[`BP2] = status_reg_otp[`BP2];
+  // status_reg[`TB] = status_reg_otp[`TB];
+  // status_reg[`SEC] = status_reg_otp[`SEC];
+  // status_reg[`CMP] = status_reg_otp[`CMP];
+  // status_reg[`WPS] = status_reg_otp[`WPS];
+  // status_reg[`DRV0] = status_reg_otp[`DRV0];
+  // status_reg[`DRV1] =  status_reg_otp[`DRV1];
+  // status_reg[`HLD_RST] = status_reg_otp[`HLD_RST];
+  // status_reg[`LB1] = status_reg_otp[`LB1];
+  // status_reg[`LB2] = status_reg_otp[`LB2];
+  // status_reg[`LB3] = status_reg_otp[`LB3];	
 	
 	flag_prog_page = 0;
 	flag_prog_secsi_page = 0;

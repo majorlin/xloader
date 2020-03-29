@@ -26,14 +26,13 @@
 #include "cpu.h"
 
 #define BOARD_CLOCK_HZ      (50000000)
+#define NULL                (0)
 
 typedef void (*p_isr_fun)(void);
 
-void install_interrupt(p_isr_fun func, int irq_num);
-void sysinit(void);
-void outchar(const char c);
-char inchar();
 void uart_init(uint32_t baudrate);
+void uart_write(const char c);
+char uart_read();
 int printf(const char *format, ...);
 
 #endif /* __COMMON_H_ */
