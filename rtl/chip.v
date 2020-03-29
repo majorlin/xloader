@@ -74,7 +74,7 @@ module chip #(
         sram_mem_ready <= sram_mem_valid;
     end
 	wire [31:0] sram_mem_rdata;
-	assign sram_mem_valid = mem_valid && (mem_addr[31:24] == 8'h00);
+	assign sram_mem_valid = mem_valid && (mem_addr[31:20] == 'h00);
 
     // GPIO
 	wire gpio_mem_valid;
