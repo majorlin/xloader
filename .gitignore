@@ -1,3 +1,4 @@
 build
 testbench.vcd
 .DS_Store
+firmware.hex
