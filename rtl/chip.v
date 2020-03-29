@@ -34,6 +34,7 @@ module chip #(
     output qspi_cs1,
     output qspi_cs2,
     output qspi_cs3,
+    output soc_fail,
     output [7:0]pads
 );
 	parameter [0:0] BARREL_SHIFTER = 1;
@@ -61,8 +62,10 @@ module chip #(
 
 	wire soc_clk;
 	wire soc_resetn;
+    wire soc_trap;
 	assign soc_clk = clk;
 	assign soc_resetn = resetn;
+    assign soc_fail = soc_trap;
 
 	// SRAM
 	wire sram_mem_valid;
@@ -135,6 +138,7 @@ module chip #(
 	) cpu (
 		.clk         (soc_clk        ),
 		.resetn      (soc_resetn     ),
+		.trap        (soc_trap     ),
 		.mem_valid   (mem_valid  ),
 		.mem_instr   (mem_instr  ),
 		.mem_ready   (mem_ready  ),

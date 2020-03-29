@@ -20,7 +20,7 @@
 `timescale 1 ns / 100 ps
 // `default_nettype none
 // `define DEBUGNETS
-`define DEBUGREGS
+// `define DEBUGREGS
 // `define DEBUGASM
 // `define DEBUG
 

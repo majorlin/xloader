@@ -22,7 +22,7 @@
 int main(void){
     uart_init(BAUDRATE);
     QSPI->SCKDIV = 3;
-    // printf("BUILD: %s %s\r\n", __DATE__, __TIME__);
+    printf("Build: %s %s\r\n", __DATE__, __TIME__);
     printf("DEVICE ID: %x\r\n", flash_read_id());
     uint32_t read_back[64] = {0};
     // flash_sector_erase(0x2000);

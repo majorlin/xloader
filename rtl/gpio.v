@@ -42,11 +42,11 @@ module gpio #(
         end
         else if (mem_valid & (&(mem_wstrb))) begin
             case (mem_addr)
-                32'h0: PDOR <= mem_wdata;
-                32'h1: PDOR <= PDOR | mem_wdata; // set output
-                32'h2: PDOR <= PDOR & (~mem_wdata); // clear output
-                32'h3: PDOR <= PDOR & (~mem_wdata) | ((~(PDOR & mem_wdata))& mem_wdata); // toggle output
-                32'h5: PDDR <= mem_wdata; // output direction
+                'h0: PDOR <= mem_wdata;
+                'h1: PDOR <= PDOR | mem_wdata; // set output
+                'h2: PDOR <= PDOR & (~mem_wdata); // clear output
+                'h3: PDOR <= PDOR & (~mem_wdata) | ((~(PDOR & mem_wdata))& mem_wdata); // toggle output
+                'h5: PDDR <= mem_wdata; // output direction
                 default: begin
                     PDOR <= PDOR;
                     PDDR <= PDDR;
