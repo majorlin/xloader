@@ -20,7 +20,7 @@
 #include "w25q_flash_drv.h"
 #define DELAY     (0x10)
 int main(void){
-    uart_init(12500000);
+    uart_init(BAUDRATE);
     QSPI->SCKDIV = 3;
     // printf("BUILD: %s %s\r\n", __DATE__, __TIME__);
     printf("DEVICE ID: %x\r\n", flash_read_id());

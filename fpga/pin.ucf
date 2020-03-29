@@ -4,3 +4,13 @@ NET "clk"           LOC=P8;
 NET "resetn"        LOC=T6;
 NET "pads[0]"       LOC=L7;
 NET "pads[1]"       LOC=L8;
+# UART
+NET "uart_rx"       LOC=A3; #J2 60
+NET "uart_tx"       LOC=B3; #J2 59
+# QSPI
+NET "qspi_cs0"      LOC=T3; 
+NET "qspi_sck"      LOC=R11; 
+NET "qspi_dq0"      LOC=T10; 
+NET "qspi_dq1"      LOC=P10; 
+NET "qspi_dq2"      LOC=N12; 
+NET "qspi_dq3"      LOC=P12; 

@@ -14,6 +14,8 @@ GDB = $(TOOLCHAIN)-gdb
 MKDIR=mkdir -p
 BUILD_PATH = build
 
+BAUDRATE ?= 12500000
+
 INCLUDE += -I./code//inc
 INCLUDE += -I./code/cpu
 C_SRC += $(wildcard ./code/src/*.c)
@@ -24,8 +26,11 @@ A_SRC += ./code/cpu/start.S
 OBJS = $(addprefix $(BUILD_PATH)/,$(addsuffix .o,$(basename $(A_SRC))))
 OBJS += $(addprefix $(BUILD_PATH)/,$(addsuffix .o,$(basename $(C_SRC))))
 
+DEFS += -DBAUDRATE=$(BAUDRATE)
+
 CFLAGS += -march=rv32im -W -Bstatic  -ffunction-sections -fmessage-length=0 -O1 -g -nostdlib
 CFLAGS += -fomit-frame-pointer -fno-exceptions -fno-asynchronous-unwind-tables -fno-unwind-tables
+CFLAGS += $(DEFS)
 LDFLAGS += $(CFLAGS)
 # LDFLAGS += -specs=nano.specs
 LDFLAGS +=  -T ./code/cpu/cpu.ld 
