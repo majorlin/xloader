@@ -14,7 +14,7 @@ GDB = $(TOOLCHAIN)-gdb
 MKDIR=mkdir -p
 BUILD_PATH = build
 
-BAUDRATE ?= 2000000
+BAUDRATE ?= 25000000
 
 INCLUDE += -I./code//inc
 INCLUDE += -I./code/cpu

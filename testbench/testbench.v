@@ -31,7 +31,7 @@ module testbench;
         reset_n = 0;
         #160;
         reset_n = 1;
-        repeat (1) begin
+        repeat (2) begin
             repeat (5000) @(posedge clk);
         end
         $finish;
@@ -60,8 +60,8 @@ module testbench;
         .pads  	  (pads)
     );
     uart_vip #(
-        .CLK_HZ (50000000),
-        .BAUDRATE(2000000)
+        .CLK_HZ  (50000000),
+        .BAUDRATE(25000000)
     ) uart (
         .clk (clk),
         .uart_rx(uart_tx)
