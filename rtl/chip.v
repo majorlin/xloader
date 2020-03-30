@@ -63,14 +63,15 @@ module chip #(
 	wire soc_clk;
 	wire soc_resetn;
     wire soc_trap;
-	assign soc_clk = clk;
-	assign soc_resetn = resetn;
+    wire pll_lock;
+	// assign soc_clk = clk;
+	assign soc_resetn = pll_lock;
     assign soc_fail = soc_trap;
 
 	// SRAM
 	wire sram_mem_valid;
 	reg sram_mem_ready;
-    always @(posedge clk) begin
+    always @(posedge soc_clk) begin
         sram_mem_ready <= sram_mem_valid;
     end
 	wire [31:0] sram_mem_rdata;
@@ -121,6 +122,19 @@ module chip #(
 	wire [31:0] soc_irq;
 	assign soc_irq = 32'h0;
 
+
+    clk_gen clk_gen(// Clock in ports
+        .CLK_IN(clk),
+        // Clock out ports
+        .CLK_200(),
+        .CLK_100(),
+        .CLK_50(),
+        .CLK_25(soc_clk),
+        .CLK_10(),
+        // Status and control signals
+        .RESET(!resetn),
+        .LOCKED(pll_lock)
+    );
 
 	picorv32 #(
 		.STACKADDR(STACKADDR),

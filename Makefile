@@ -14,7 +14,7 @@ GDB = $(TOOLCHAIN)-gdb
 MKDIR=mkdir -p
 BUILD_PATH = build
 
-BAUDRATE ?= 12500000
+BAUDRATE ?= 2000000
 
 INCLUDE += -I./code//inc
 INCLUDE += -I./code/cpu
@@ -45,7 +45,7 @@ all: $(BUILD_PATH)/testbench.vvp $(FIRMWARE)
 $(BUILD_PATH)/testbench.vvp: $(RTL_SRC)
 	@echo "Build verilog files"
 	$(MKDIR) $(BUILD_PATH)
-	iverilog -s testbench -o $@ $^ 
+	iverilog -y $(ISE_SRC)/unisims -y $(ISE_SRC) -y $(ISE_SRC)/simprims -s testbench -o $@ $^ 
 
 clean:
 	rm -rf testbench.vvp testbench.vcd $(BUILD_PATH)
