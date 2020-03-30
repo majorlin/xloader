@@ -25,7 +25,7 @@
 #include <assert.h>
 #include "cpu.h"
 
-#define BOARD_CLOCK_HZ      (25000000)
+#define BOARD_CLOCK_HZ      (100000000)
 #define NULL                (0)
 
 typedef void (*p_isr_fun)(void);

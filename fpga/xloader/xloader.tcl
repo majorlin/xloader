@@ -245,6 +245,7 @@ proc add_source_files {} {
    xfile add "../../rtl/sirv_uartrx.v"
    xfile add "../../rtl/sirv_uarttx.v"
    xfile add "../../rtl/sram_byte_en_model.v"
+   xfile add "../../rtl/clk_gen.v"
    xfile add "../pin.ucf"
 
    # Set the Top Module as well...
@@ -478,7 +479,7 @@ proc set_process_props {} {
    project set "Maximum Number of Lines in Report" "1000" -process "Generate Text Power Report"
    project set "Output File Name" "chip" -process "Generate IBIS Model"
    project set "Timing Mode" "Performance Evaluation" -process "Place & Route"
-   project set "Create Binary Configuration File" "false" -process "Generate Programming File"
+   project set "Create Binary Configuration File" "true" -process "Generate Programming File"
    project set "Enable Debugging of Serial Mode BitStream" "false" -process "Generate Programming File"
    project set "Create Logic Allocation File" "false" -process "Generate Programming File"
    project set "Create Mask File" "false" -process "Generate Programming File"

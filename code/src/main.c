@@ -27,12 +27,17 @@ int main(void){
     uint32_t read_back[64] = {0};
     // flash_sector_erase(0x2000);
     // flash_write_data(0x2100, "LINMINGJIE", 11);
-    flash_read_data(0x00, (uint8_t*)read_back, 256);
-    for (int i = 0; i < 64; i++){
-        if(0 == i % 8) {
-            printf("\r\n [%x]: ", i);
+    for(int addr = 0; addr < 1*1024; addr += 256){
+        flash_read_data(addr, (uint8_t*)read_back, 256);
+        for (int i = 0; i < 64; i++){
+            if(0 == i % 8) {
+                printf("\r\n [%x]: ", i+addr);
+            }
+            printf("%x ", read_back[i]);
         }
-        printf("%x ", read_back[i]);
+    }
+    while(1){
+        uart_write(uart_read());
     }
     return 0;
 } 

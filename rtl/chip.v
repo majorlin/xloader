@@ -127,9 +127,9 @@ module chip #(
         .CLK_IN(clk),
         // Clock out ports
         .CLK_200(),
-        .CLK_100(),
+        .CLK_100(soc_clk),
         .CLK_50(),
-        .CLK_25(soc_clk),
+        .CLK_25(),
         .CLK_10(),
         // Status and control signals
         .RESET(!resetn),
