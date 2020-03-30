@@ -268,5 +268,9 @@ module chip #(
         .io_port_cs_3(qspi_cs3),
         .io_tl_i_0_0()
     );
+    icap_reboot icap (
+        .clk(soc_clk),
+        .reboot(soc_resetn)
+    );
 	
 endmodule
