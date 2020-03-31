@@ -1,12 +1,13 @@
 NET "clk"           TNM_NET = "clk";
 TIMESPEC "TS_clk" = PERIOD "clk" 20.000 ns HIGH 50.00%;
+
 NET "clk"           LOC=P8;
 NET "resetn"        LOC=T6;
 NET "soc_fail"      LOC=L7;
 NET "pads[1]"       LOC=L8;
 # UART
-NET "uart_rx"       LOC=A3; #J2 60
-NET "uart_tx"       LOC=B3; #J2 59
+NET "uart_rx"       LOC=R2; #J2 5
+NET "uart_tx"       LOC=R1; #J2 6
 # QSPI
 NET "qspi_cs0"      LOC=T3; 
 NET "qspi_sck"      LOC=R11; 
