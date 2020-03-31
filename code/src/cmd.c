@@ -17,12 +17,16 @@
  */
 
 #include "cmd.h"
+#include "w25q_flash_drv.h"
 
 static p_cmd_func cmd_table[] = {
     pass_command,
     fail_command,
     ram_load_command,
     ram_jump_command,
+    flash_erase_command,
+    flash_program_command,
+    fpga_reboot_command,
 };
 int read_command(char * buffer, int size){
     uint32_t timeout = 0;
@@ -78,4 +82,13 @@ int run_command(cmd_t* cmd){
         return cmd_table[cmd->id](cmd);
     } 
     return 1;
+}
+int flash_erase_command(cmd_t* cmd){
+    flash_sector_erase(cmd->addr);
+}
+int flash_program_command(cmd_t* cmd){
+    flash_write_data(cmd->addr, cmd->data, BUFFER_LEN);
+}
+int fpga_reboot_command(cmd_t* cmd){
+    *(uint32_t*)0xFFFFFFFF = 0;
 }

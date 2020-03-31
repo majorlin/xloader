@@ -22,7 +22,7 @@
 #include "common.h"
 
 #define BUFFER_LEN           (1024)
-#define CMD_TIMEOUT_CNT      (0x10)
+#define CMD_TIMEOUT_CNT      (0xFFFFFF)
 typedef struct _cmd_t{
     uint8_t header[3];
     uint8_t id;
@@ -39,4 +39,7 @@ int fail_command(cmd_t* cmd);
 int ram_load_command(cmd_t* cmd);
 int ram_jump_command(cmd_t* cmd);
 int run_command(cmd_t* cmd);
+int flash_erase_command(cmd_t* cmd);
+int flash_program_command(cmd_t* cmd);
+int fpga_reboot_command(cmd_t* cmd);
 #endif /* __CMD_H_ */
