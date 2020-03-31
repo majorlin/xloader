@@ -20,7 +20,7 @@
 #ifndef __CMD_H_
 #define __CMD_H_
 #include "common.h"
-
+#define DEBUG
 #define BUFFER_LEN           (1024)
 #define CMD_TIMEOUT_CNT      (0xFFFFFF)
 typedef struct _cmd_t{

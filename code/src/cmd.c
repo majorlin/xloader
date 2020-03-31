@@ -42,7 +42,7 @@ int read_command(char * buffer, int size){
             buffer[index++] = (char)(rxdata);
         }
     }
-    return size;
+    return index;
 }
 int validate_command(cmd_t* cmd){
     // currently no checksum check
@@ -52,6 +52,16 @@ int validate_command(cmd_t* cmd){
         || cmd->tail[0] != 'D' 
         || cmd->tail[1] != 'M' 
         || cmd->tail[2] != 'C'){
+#ifdef DEBUG
+            uart_write(cmd->header[0]);
+            uart_write(cmd->header[1]);
+            uart_write(cmd->header[2]);
+            printf("addr=%x", cmd->addr);
+            uart_write(cmd->id);
+            uart_write(cmd->tail[0]);
+            uart_write(cmd->tail[1]);
+            uart_write(cmd->tail[2]);
+#endif
             return -1;
     } else {
         return 0;
@@ -85,9 +95,17 @@ int run_command(cmd_t* cmd){
 }
 int flash_erase_command(cmd_t* cmd){
     flash_sector_erase(cmd->addr);
+#ifdef DEBUG
+    printf("E%x", cmd->addr);
+#endif
 }
 int flash_program_command(cmd_t* cmd){
-    flash_write_data(cmd->addr, cmd->data, BUFFER_LEN);
+    for(int i = 0; i < BUFFER_LEN; i = i+256){
+        flash_write_data(cmd->addr + i, cmd->data + i, 256);
+#ifdef DEBUG
+        printf("P%x", cmd->addr + i);
+#endif
+    }
 }
 int fpga_reboot_command(cmd_t* cmd){
     *(uint32_t*)0xFFFFFFFF = 0;

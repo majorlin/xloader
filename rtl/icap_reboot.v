@@ -42,19 +42,19 @@ always @(*) begin
         4'h1: wdata = 16'hFFFF; // Dummy word
         4'h2: wdata = 16'h5599; // 16'hAA99; // Sync word
         4'h3: wdata = 16'hAA66; // 16'h5566; // Sync word
-        4'h4: wdata = 16'h3261; // General 1
+        4'h4: wdata = 16'hC468; // 16'h3261; // General 1
         4'h5: wdata = 16'h0000; // Boot start address [15:0]
-        4'h6: wdata = 16'h3281; // General 2
-        4'h7: wdata = 16'h0008; // Opcode and boot start address [23:16]
-        4'h8: wdata = 16'h32A1; // General 3
+        4'h6: wdata = 16'hC418; // 16'h3281; // General 2
+        4'h7: wdata = 16'h0D01; // 16'h0B08; // Opcode and boot start address [23:16]
+        4'h8: wdata = 16'hC458; // 16'h32A1; // General 3
         4'h9: wdata = 16'h0000; // Fallback start address [15:0]
-        4'hA: wdata = 16'h32C1; // General 4
+        4'hA: wdata = 16'hC438; // 16'h32C1; // General 4
         4'hB: wdata = 16'h0000; // Opcode and fallback start address [23:16]
-        4'hC: wdata = 16'h30A1; // CMD 
-        4'hD: wdata = 16'h000E; // IPROG command
-        4'hE: wdata = 16'h2000; // NO OP
-        4'hF: wdata = 16'h2000; // NO OP
-        default: wdata = 16'h2000; // NO OP
+        4'hC: wdata = 16'hC058; // 16'h30A1; // CMD 
+        4'hD: wdata = 16'h0007; // 16'h000E; // IPROG command
+        4'hE: wdata = 16'h4000; // 16'h2000; // NO OP
+        4'hF: wdata = 16'h4000; // 16'h2000; // NO OP
+        default: wdata = 16'h4000; // NO OP
     endcase
 end
 

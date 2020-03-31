@@ -93,8 +93,7 @@ void flash_sector_erase(uint32_t addr) {
     flash_wait_idle();
     flash_write_enable();
 }
-void flash_read_data(uint32_t addr,uint8_t *datasto,uint16_t num) {
-    uint16_t i;
+void flash_read_data(uint32_t addr,uint8_t *datasto,int num) {
     uint8_t Addr[3] = {0};
     Addr[0] = (addr&0x00FF0000) >> 16;
     Addr[1] = (addr&0x0000FF00) >> 8;
@@ -105,16 +104,15 @@ void flash_read_data(uint32_t addr,uint8_t *datasto,uint16_t num) {
     spi_write_byte(Addr[1]);
     spi_write_byte(Addr[2]);
 
-    for(i = 0;i<num;i++)
+    for(int i = 0;i < num; i++)
     {
         datasto[i] = spi_write_read(0x00);
     }
     spi_flash_cs_high();
     flash_wait_idle();
 }
-void flash_write_data(uint32_t addr,uint8_t *datasend,uint16_t num) {
+void flash_write_data(uint32_t addr,uint8_t *datasend,int num) {
     uint8_t Addr[3] = {0};
-    uint8_t i;
     flash_write_enable();
     Addr[0] = (addr&0x00FF0000) >> 16;
     Addr[1] = (addr&0x0000FF00) >> 8;
@@ -124,9 +122,10 @@ void flash_write_data(uint32_t addr,uint8_t *datasend,uint16_t num) {
     spi_write_byte(Addr[0]);
     spi_write_byte(Addr[1]);
     spi_write_byte(Addr[2]);
-    for(i = 0;i<num;i++){
+    for(int i = 0;i < num; i++){
         spi_write_byte(datasend[i]);
     }
     spi_flash_cs_high();
+    flash_wait_idle();
 }
 

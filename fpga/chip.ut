@@ -28,5 +28,3 @@
 -g sw_clk:Startupclk
 -g sw_gwe_cycle:5
 -g sw_gts_cycle:4
--g next_config_addr:0x00080000
--g next_config_new_mode:Yes
