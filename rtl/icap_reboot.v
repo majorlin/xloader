@@ -58,14 +58,14 @@ always @(*) begin
     endcase
 end
 
-X_ICAP_SPARTAN6 #(
+ICAP_SPARTAN6 #(
     .DEVICE_ID(32'h04002093)
 ) icap (
     .BUSY(),
     .O(),
-    .CE(),
+    .CE(icap_en),
     .CLK(clk),
-    .I(),
-    .WRITE()
+    .I(wdata),
+    .WRITE(!icap_en)
 );
 endmodule

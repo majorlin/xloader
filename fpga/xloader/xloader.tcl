@@ -245,6 +245,7 @@ proc add_source_files {} {
    xfile add "../../rtl/sirv_uartrx.v"
    xfile add "../../rtl/sirv_uarttx.v"
    xfile add "../../rtl/sram_byte_en_model.v"
+   xfile add "../../rtl/icap_reboot.v"
    xfile add "../../rtl/clk_gen.v"
    xfile add "../pin.ucf"
 
