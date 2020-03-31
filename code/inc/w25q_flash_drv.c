@@ -56,7 +56,7 @@ static void flash_wait_idle(void) {
     do {
         temp = spi_write_read(0x00);
     }
-    while(temp&0x01==1); /*判断状态寄存器最低位，最低位为1表示忙碌*/
+    while(temp&0x01==1);
     spi_flash_cs_high();
 }
 uint16_t flash_read_id(){
@@ -81,7 +81,8 @@ void flash_sector_erase(uint32_t addr) {
     Addr[0] = (addr&0x00FF0000) >> 16;
     Addr[1] = (addr&0x0000FF00) >> 8;
     Addr[2] = (addr&0x000000FF) >> 0;
-
+    flash_wait_idle();
+    flash_write_enable();
     spi_flash_cs_low();
     spi_write_byte(0x20);
     spi_write_byte(Addr[0]);
@@ -104,7 +105,6 @@ void flash_read_data(uint32_t addr,uint8_t *datasto,uint16_t num) {
     spi_write_byte(Addr[1]);
     spi_write_byte(Addr[2]);
 
-    /*连续读取*/
     for(i = 0;i<num;i++)
     {
         datasto[i] = spi_write_read(0x00);
@@ -112,7 +112,7 @@ void flash_read_data(uint32_t addr,uint8_t *datasto,uint16_t num) {
     spi_flash_cs_high();
     flash_wait_idle();
 }
-void flash_write_data(uint32_t addr,uint8_t *datasend,uint8_t num) {
+void flash_write_data(uint32_t addr,uint8_t *datasend,uint16_t num) {
     uint8_t Addr[3] = {0};
     uint8_t i;
     flash_write_enable();

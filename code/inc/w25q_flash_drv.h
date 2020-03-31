@@ -29,5 +29,5 @@ uint16_t flash_read_id();
 void flash_write_enable();
 void flash_sector_erase(uint32_t addr);
 void flash_read_data(uint32_t addr,uint8_t *datasto,uint16_t num);
-void flash_write_data(uint32_t addr,uint8_t *datasend,uint8_t num);
+void flash_write_data(uint32_t addr,uint8_t *datasend,uint16_t num);
 #endif
