@@ -1,9 +1,9 @@
 module multiboot (
     input wire clk_icap,
+    input [23:0] spi_addr,  // SPI address of the bitstream
 	input wire REBOOT
 );
               
-    reg [23:0] spi_addr = 24'h080000;  // SPI address of the bitstream
     reg [4:0] q = 5'b00000;
     reg reboot_ff = 1'b0;
 

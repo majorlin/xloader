@@ -21,16 +21,16 @@
 module chip #(
 	parameter TOTAL_GPIOS = 8
 )(
-	input clk,
-	input resetn,
-	input reboot_key,
-	input uart_rx,
+	input  clk,
+	input  resetn,
+	input  reboot_key,
+	input  uart_rx,
 	output uart_tx,
     output qspi_sck,
-    inout qspi_dq0,
-    inout qspi_dq1,
-    inout qspi_dq2,
-    inout qspi_dq3,
+    inout  qspi_dq0,
+    inout  qspi_dq1,
+    inout  qspi_dq2,
+    inout  qspi_dq3,
     output qspi_cs0,
     output qspi_cs1,
     output qspi_cs2,
@@ -110,15 +110,23 @@ module chip #(
 	wire [31:0] qspi_mem_rdata;
 	assign qspi_mem_valid = mem_valid && (mem_addr[22]);
 
+    // BOOT
+	wire boot_mem_valid;
+	wire boot_mem_ready;
+	wire [31:0] boot_mem_rdata;
+	assign boot_mem_valid = mem_valid && (mem_addr[23]);
+
 	assign mem_rdata = ({32{sram_mem_ready}} & sram_mem_rdata)
 		| ({32{gpio_mem_ready}} & gpio_mem_rdata)
 		| ({32{uart_mem_ready}} & uart_mem_rdata)
 		| ({32{qspi_mem_ready}} & qspi_mem_rdata)
+		| ({32{boot_mem_ready}} & boot_mem_rdata)
         ;
 	assign mem_ready = sram_mem_ready
 		| gpio_mem_ready
 		| uart_mem_ready
 		| qspi_mem_ready
+		| boot_mem_ready
         ;
 	// Interrupt request
 	wire [31:0] soc_irq;
@@ -270,10 +278,17 @@ module chip #(
         .io_port_cs_3(qspi_cs3),
         .io_tl_i_0_0()
     );
-    multiboot icap (
-        .clk_icap(icap_clk),
-        .REBOOT(!reboot_key)
-        //.REBOOT(mem_addr[30])
-    );
 	
+    boot boot (
+        .mem_clk(soc_clk),
+        .icap_clk(icap_clk),
+        .rst_n(soc_resetn),
+        .mem_valid(boot_mem_valid), 
+        .mem_wdata(mem_wdata),
+        .mem_addr(mem_addr[5:2]),
+        .mem_wstrb(mem_wstrb),
+        .reboot_key(reboot_key),
+        .mem_ready(boot_mem_ready),
+        .mem_rdata(boot_mem_rdata)
+    );
 endmodule

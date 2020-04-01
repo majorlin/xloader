@@ -22,7 +22,7 @@
 module testbench;
     reg clk;
     reg reset_n;
-    reg reboot_key=0;
+    reg reboot_key=1;
     wire [31:0] PADS;
     always #10 clk = (clk === 1'b0);
 

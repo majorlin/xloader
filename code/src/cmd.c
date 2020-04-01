@@ -27,6 +27,8 @@ static p_cmd_func cmd_table[] = {
     flash_erase_command,
     flash_program_command,
     fpga_reboot_command,
+    uart_baudrate_command,
+    spi_baudrate_command
 };
 int read_command(char * buffer, int size){
     uint32_t timeout = 0;
@@ -106,10 +108,25 @@ int flash_program_command(cmd_t* cmd){
         printf("P%x", cmd->addr + i);
 #endif
     }
+    return 0;
 }
 int fpga_reboot_command(cmd_t* cmd){
-    for(int i = 0; i < 100; i++){
-        printf("REBOOT");
-        *(uint32_t*)0xFFFFFFFF = 0;
-    }
+    BOOT->SPI_ADDR = cmd->addr;
+    BOOT->REBOOT = 1;
+    BOOT->REBOOT = 1;
+    BOOT->REBOOT = 1;
+    BOOT->REBOOT = 1;
+    BOOT->REBOOT = 0;
+    printf("REBOOT");
+    return 0;
+}
+int uart_baudrate_command(cmd_t* cmd){
+    UART->DIV = BOARD_CLOCK_HZ / cmd->addr - 1;
+    printf("UD=%d", cmd->addr);
+    return 0;
+}
+int spi_baudrate_command(cmd_t* cmd){
+    QSPI->SCKDIV = BOARD_CLOCK_HZ / cmd->addr / 2 - 1;
+    printf("SD=%d", cmd->addr);
+    return 0;
 }

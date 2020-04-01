@@ -107,4 +107,12 @@ typedef struct {
 
 #define QSPI_BASE                         (0x00400000u)
 #define QSPI                              ((QSPI_Type *)QSPI_BASE)
+
+typedef struct {
+  __IO  uint32_t SPI_ADDR;                  /**< Register, offset: 0x0 */
+  __IO  uint32_t REBOOT;                    /**< Register, offset: 0x4 */
+  __IO  uint32_t BOOT_PIN;                  /**< Register, offset: 0x8 */
+} BOOT_Type;
+#define BOOT_BASE                          (0x00800000u)
+#define BOOT                               ((BOOT_Type *)BOOT_BASE)
 #endif /* __CPU_H_ */

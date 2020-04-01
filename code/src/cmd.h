@@ -21,7 +21,7 @@
 #define __CMD_H_
 #include "common.h"
 #define DEBUG
-#define BUFFER_LEN           (1024)
+#define BUFFER_LEN           (4096)
 #define CMD_TIMEOUT_CNT      (0xFFFFFF)
 typedef struct _cmd_t{
     uint8_t header[3];
@@ -42,4 +42,6 @@ int run_command(cmd_t* cmd);
 int flash_erase_command(cmd_t* cmd);
 int flash_program_command(cmd_t* cmd);
 int fpga_reboot_command(cmd_t* cmd);
+int uart_baudrate_command(cmd_t* cmd);
+int spi_baudrate_command(cmd_t* cmd);
 #endif /* __CMD_H_ */
