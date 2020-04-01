@@ -270,9 +270,10 @@ module chip #(
         .io_port_cs_3(qspi_cs3),
         .io_tl_i_0_0()
     );
-    icap_reboot icap (
-        .clk(icap_clk),
-        .reboot(!reboot_key)
+    multiboot icap (
+        .clk_icap(icap_clk),
+        .REBOOT(!reboot_key)
+        //.REBOOT(mem_addr[30])
     );
 	
 endmodule

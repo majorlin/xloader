@@ -22,6 +22,7 @@
 module testbench;
     reg clk;
     reg reset_n;
+    reg reboot_key=0;
     wire [31:0] PADS;
     always #10 clk = (clk === 1'b0);
 
@@ -31,7 +32,11 @@ module testbench;
         reset_n = 0;
         #160;
         reset_n = 1;
-        repeat (2) begin
+        repeat (1) begin
+            repeat (5000) @(posedge clk);
+        end
+        reboot_key = 1;
+        repeat (1) begin
             repeat (5000) @(posedge clk);
         end
         $finish;
@@ -46,6 +51,7 @@ module testbench;
     chip chip(
         .clk      (clk      ),
         .resetn   (reset_n  ),
+        .reboot_key(reboot_key),
         .uart_rx  (uart_tx),
         .uart_tx  (uart_tx),
         .qspi_sck (qspi_sck),
