@@ -26,7 +26,7 @@ int main(void){
     printf("Xloader build: %s %s\r\n", __DATE__, __TIME__);
     cmd_t cmd;
     if(BOOT->BOOT_PIN == 0){
-        cmd.addr = 0x90000;
+        cmd.addr = 0x80000;
         fpga_reboot_command(&cmd);
     }
     int cmd_size = sizeof(cmd);
