@@ -27,7 +27,7 @@ int main(void){
     // printf("DEVICE ID: %x\r\n", flash_read_id());
 	uint32_t read_back[64] = {0};
     for (int addr = 0; addr < 2*1024; addr=addr + 256){
-        flash_read_data(0x80000 + addr, (uint8_t*)read_back, 256);
+        flash_read_data(0x81000 + addr, (uint8_t*)read_back, 256);
         for (int i = 0; i < 64; i++){
             if(0 == i % 8) {
                 printf("\r\n [%x]: ", i + addr);

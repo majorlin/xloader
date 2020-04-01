@@ -23,6 +23,7 @@ module chip #(
 )(
 	input clk,
 	input resetn,
+	input reboot_key,
 	input uart_rx,
 	output uart_tx,
     output qspi_sck,
@@ -61,6 +62,7 @@ module chip #(
 	wire [31:0] mem_rdata;
 
 	wire soc_clk;
+    wire icap_clk;
 	wire soc_resetn;
     wire soc_trap;
     wire pll_lock;
@@ -130,7 +132,7 @@ module chip #(
         .CLK_100(soc_clk),
         .CLK_50(),
         .CLK_25(),
-        .CLK_10(),
+        .CLK_10(icap_clk),
         // Status and control signals
         .RESET(!resetn),
         .LOCKED(pll_lock)
@@ -269,8 +271,8 @@ module chip #(
         .io_tl_i_0_0()
     );
     icap_reboot icap (
-        .clk(soc_clk),
-        .reboot(mem_addr[30])
+        .clk(icap_clk),
+        .reboot(!reboot_key)
     );
 	
 endmodule

@@ -108,5 +108,8 @@ int flash_program_command(cmd_t* cmd){
     }
 }
 int fpga_reboot_command(cmd_t* cmd){
-    *(uint32_t*)0xFFFFFFFF = 0;
+    for(int i = 0; i < 100; i++){
+        printf("REBOOT");
+        *(uint32_t*)0xFFFFFFFF = 0;
+    }
 }
