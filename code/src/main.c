@@ -23,16 +23,17 @@
 int main(void){
     uart_init(BAUDRATE);
     QSPI->SCKDIV = 1;
-    printf("Xloader build: %s %s\r\n", __DATE__, __TIME__);
     cmd_t cmd;
-    if(BOOT->BOOT_PIN == 0){
+    if(BOOT->BOOT_PIN){
         cmd.addr = 0x80000;
         fpga_reboot_command(&cmd);
     }
+    GPIO->PDDR = 1;
     int cmd_size = sizeof(cmd);
     while(1) {
         if(cmd_size != read_command((char*)(&cmd), cmd_size)){
-            printf("TIMEOUT");
+            uart_write('.');
+            GPIO->PTOR = 1;
             continue;
         }
         if(validate_command(&cmd)){

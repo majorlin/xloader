@@ -5,7 +5,7 @@ NET "clk"           LOC=P8;
 NET "resetn"        LOC=T6;
 NET "reboot_key"    LOC=T4;
 NET "soc_fail"      LOC=L7;
-NET "pads[1]"       LOC=L8;
+NET "pads[0]"       LOC=L8;
 # UART
 NET "uart_rx"       LOC=R2; #J2 5
 NET "uart_tx"       LOC=R1; #J2 6

@@ -20,9 +20,9 @@
 #ifndef __CMD_H_
 #define __CMD_H_
 #include "common.h"
-#define DEBUG
+// #define DEBUG
 #define BUFFER_LEN           (4096)
-#define CMD_TIMEOUT_CNT      (0xFFFFFF)
+#define CMD_TIMEOUT_CNT      (0x3FFFFF)
 typedef struct _cmd_t{
     uint8_t header[3];
     uint8_t id;

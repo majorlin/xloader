@@ -17,6 +17,7 @@
  */
 
 
+`timescale 1 ns / 100 ps
 module icap_reboot(
     input clk,
     input reboot

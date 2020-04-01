@@ -1,3 +1,4 @@
+`timescale 1 ns / 100 ps
 module multiboot (
     input wire clk_icap,
     input [23:0] spi_addr,  // SPI address of the bitstream

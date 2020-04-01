@@ -22,15 +22,21 @@
 module testbench;
     reg clk;
     reg reset_n;
-    reg reboot_key=1;
+    reg reboot_key=0;
     wire [31:0] PADS;
     always #10 clk = (clk === 1'b0);
 
     initial begin
+`ifdef SHM
+        $shm_open("xloader.shm", $test$plusargs("DUMP_GLITCH"), , 1);
+        $shm_probe(testbench, "ACTFM");
+`else
         $dumpfile("testbench.vcd");
         $dumpvars(0, testbench);
+`endif
         reset_n = 0;
         #160;
+        $display("Chip reset done!");
         reset_n = 1;
         repeat (1) begin
             repeat (5000) @(posedge clk);
@@ -81,6 +87,5 @@ module testbench;
         .HOLDn(qspi_dq3)
     );
 
-    glbl glbl();
     
 endmodule
