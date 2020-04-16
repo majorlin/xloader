@@ -122,11 +122,15 @@ int fpga_reboot_command(cmd_t* cmd){
 }
 int uart_baudrate_command(cmd_t* cmd){
     UART->DIV = BOARD_CLOCK_HZ / cmd->addr - 1;
+#ifdef DEBUG
     printf("UD=%d", cmd->addr);
+#endif
     return 0;
 }
 int spi_baudrate_command(cmd_t* cmd){
     QSPI->SCKDIV = BOARD_CLOCK_HZ / cmd->addr / 2 - 1;
+#ifdef DEBUG
     printf("SD=%d", cmd->addr);
+#endif
     return 0;
 }

@@ -2,3 +2,4 @@ build
 testbench.vcd
 .DS_Store
 firmware.hex
+frame_data_s6_rbt_out.txt

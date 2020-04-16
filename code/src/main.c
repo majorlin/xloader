@@ -23,27 +23,30 @@
 int main(void){
     uart_init(BAUDRATE);
     QSPI->SCKDIV = 1;
-    cmd_t cmd;
-    if(BOOT->BOOT_PIN){
-        cmd.addr = 0x80000;
-        fpga_reboot_command(&cmd);
-    }
+    cmd_t* cmd;
+    cmd = (cmd_t*)0x6c00;
+    // if(BOOT->BOOT_PIN){
+    //     cmd->addr = 0x80000;
+    //     fpga_reboot_command(cmd);
+    // }
     GPIO->PDDR = 1;
-    int cmd_size = sizeof(cmd);
+    int cmd_size = sizeof(cmd_t);
     while(1) {
-        if(cmd_size != read_command((char*)(&cmd), cmd_size)){
-            uart_write('.');
+        if(cmd_size != read_command((char*)(cmd), cmd_size)){
             GPIO->PTOR = 1;
+#ifdef DEBUG
+            printf("TOUT");
+#endif
             continue;
         }
-        if(validate_command(&cmd)){
-            printf("FORMATERR");
+        if(validate_command(cmd)){
+            printf("FMTE");
             continue;
         }
-        if(run_command(&cmd)){
+        if(run_command(cmd)){
             printf("FAIL");
         } else {
-            printf("OK");
+            printf("DONE");
         }
     }
     return 0;

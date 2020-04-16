@@ -31,7 +31,7 @@ module boot
     output [31:0]mem_rdata
 );
     // write access
-    reg [24:0] spi_addr = 'h80000;
+    reg [23:0] spi_addr = 'h80000;
     reg  reboot = 0;
     always @(posedge mem_clk or negedge rst_n) begin
         if(!rst_n) begin

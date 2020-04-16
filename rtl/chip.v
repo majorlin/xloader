@@ -48,7 +48,7 @@ module chip #(
 	parameter [ 0:0] REGS_INIT_ZERO = 1;
 
 	parameter integer MEM_WORDS = 32 * 1024 / 4;
-	parameter [31:0] STACKADDR = (31 * 1024);       // end of memory
+	parameter [31:0] STACKADDR = (4 * 1024);       // end of memory
 	parameter [31:0] PROGADDR_RESET = 32'h 0000_0000; // ROM start address
 	parameter [31:0] PROGADDR_IRQ = 32'h 0000_0060;
     

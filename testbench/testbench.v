@@ -23,7 +23,7 @@ module testbench;
     reg clk;
     reg reset_n;
     reg reboot_key=0;
-    wire [31:0] PADS;
+    wire [7:0] pads;
     always #10 clk = (clk === 1'b0);
 
     initial begin
@@ -87,5 +87,5 @@ module testbench;
         .HOLDn(qspi_dq3)
     );
 
-    
+    glbl glbl();    
 endmodule

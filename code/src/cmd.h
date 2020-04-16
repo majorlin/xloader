@@ -22,7 +22,13 @@
 #include "common.h"
 // #define DEBUG
 #define BUFFER_LEN           (4096)
+#ifdef DEBUG
+#define CMD_TIMEOUT_CNT      (0xF)
+#define BAUDRATE             (25000000)
+#else
 #define CMD_TIMEOUT_CNT      (0x3FFFFF)
+#define BAUDRATE             (115200)
+#endif
 typedef struct _cmd_t{
     uint8_t header[3];
     uint8_t id;

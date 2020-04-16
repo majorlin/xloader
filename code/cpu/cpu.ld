@@ -1,6 +1,6 @@
 MEMORY
 {
-    RAM (xrw)       : ORIGIN = 0x00000000, LENGTH = 32K
+    RAM (xrw)       : ORIGIN = 0x00000000, LENGTH = 4K
 }
 
 SECTIONS {
