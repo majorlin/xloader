@@ -83,10 +83,10 @@ int ram_load_command(cmd_t* cmd){
     }
     return 0;
 }
-uint32_t g_pc;
+volatile uint32_t g_pc;
 int ram_jump_command(cmd_t* cmd){
-    g_pc = *(uint32_t*)cmd->data;
-    asm("j g_pc");
+    g_pc = cmd->addr;
+    asm("j 0x1000");
     return 0;
 }
 int run_command(cmd_t* cmd){

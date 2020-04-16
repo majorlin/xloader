@@ -25,10 +25,15 @@ int main(void){
     QSPI->SCKDIV = 1;
     cmd_t* cmd;
     cmd = (cmd_t*)0x6c00;
-    // if(BOOT->BOOT_PIN){
-    //     cmd->addr = 0x80000;
-    //     fpga_reboot_command(cmd);
-    // }
+#ifdef DEBUG
+    cmd->addr = 0x1000;
+    ram_jump_command(cmd);
+#else
+    if(BOOT->BOOT_PIN){
+        cmd->addr = 0x80000;
+        fpga_reboot_command(cmd);
+    }
+#endif
     GPIO->PDDR = 1;
     int cmd_size = sizeof(cmd_t);
     while(1) {

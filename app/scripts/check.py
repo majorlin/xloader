@@ -18,8 +18,7 @@
 # ******************************************************************************
 ###
 import serial
-#with open("data.bin", "wb") as ser
-ser = serial.Serial("/dev/tty.usbserial-14110", 115200, timeout=3)
+ser = serial.Serial("/dev/tty.usbserial-14110", 115200, timeout=5)
 
 def send_cmd(cmdid:int, addr:int, data:bytes=b''):
     #with open("data.bin", "wb") as ser:
@@ -32,7 +31,8 @@ def send_cmd(cmdid:int, addr:int, data:bytes=b''):
     ser.write(b'\0')
     ser.write(b'DMC')
     ser.flush()
-    ser.read(4)
+    print(ser.read(4))
+
 def update_code():
     with open("chip.bin", "rb") as f:
         data = f.read(4096)
@@ -41,14 +41,14 @@ def update_code():
             # erase
             print("Erase: {:0>8X}".format(base))
             send_cmd(4, base, data)
-            # print(ser.read(1000))
+            print(ser.read(1000))
             print("Program: {:0>8X}".format(base))
             send_cmd(5, base, data)
-            # print(ser.read(1000))
+            print(ser.read(1000))
             data = f.read(4096)
             base = base + 4096
     send_cmd(6, 0x80000)
-    # print(ser.read(1000))
+    print(ser.read(1000))
     ser.close()
 
 def update_boot():
@@ -59,29 +59,16 @@ def update_boot():
             # erase
             print("Erase: {:0>8X}".format(base))
             send_cmd(4, base, data)
-            # print(ser.read(1000))
+            print(ser.read(1000))
             print("Program: {:0>8X}".format(base))
             send_cmd(5, base, data)
-            # print(ser.read(1000))
+            print(ser.read(1000))
             data = f.read(4096)
             base = base + 4096
     send_cmd(6, 0x00000)
-    # print(ser.read(1000))
-    ser.close()
-
-def update_fw():
-    with open("firmware.bin", "rb") as f:
-        data = f.read(4096)
-        base = 0x01000
-        while(data):
-            print("Program: {:0>8X}".format(base))
-            send_cmd(2, base, data)
-            # print(ser.read(1000))
-            data = f.read(4096)
-            base = base + 4096
-    send_cmd(3, 0x01000)
-    # print(ser.read(1000))
+    print(ser.read(1000))
     ser.close()
 
 # update_code()
-update_fw()
+for i in range(100):
+    send_cmd(1, 0)
