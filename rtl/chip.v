@@ -122,7 +122,7 @@ module chip #(
 		| ({32{qspi_mem_ready}} & qspi_mem_rdata)
 		| ({32{boot_mem_ready}} & boot_mem_rdata)
         ;
-	assign mem_ready = sram_mem_ready
+	assign mem_ready = (sram_mem_ready & sram_mem_valid)
 		| gpio_mem_ready
 		| uart_mem_ready
 		| qspi_mem_ready
