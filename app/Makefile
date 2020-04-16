@@ -70,6 +70,5 @@ $(BUILD_PATH)/%.o: %.S
 
 $(FIRMWARE): $(TARGET).bin size
 	python3 ../code/scripts/bin2hex.py $(TARGET).bin > $(TARGET).hex	
-	cp $(TARGET).hex .
 	python3 ./xloader.py
 .PHONY: clean
