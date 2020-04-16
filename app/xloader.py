@@ -19,9 +19,10 @@
 ###
 import serial
 #with open("data.bin", "wb") as ser
-ser = serial.Serial("/dev/tty.usbserial-14310", 115200, timeout=5)
+ser = serial.Serial("/dev/tty.usbserial-14310", 115200, timeout=1)
 
 def send_cmd(cmdid:int, addr:int, data:bytes=b''):
+    #with open("data.bin", "wb") as ser:
     ser.write(b'CMD')
     ser.write(cmdid.to_bytes(1, byteorder='little'))
     ser.write(addr.to_bytes(4, byteorder='little'))
@@ -31,11 +32,7 @@ def send_cmd(cmdid:int, addr:int, data:bytes=b''):
     ser.write(b'\0')
     ser.write(b'DMC')
     ser.flush()
-    if ser.read(4) == b'DONE':
-        return True
-    else:
-        print("CMD failed, retrying....")
-        send_cmd(cmdid, addr, data)
+    print(ser.read(4))
 
 def update_code():
     with open("chip.bin", "rb") as f:
@@ -74,7 +71,7 @@ def update_boot():
     ser.close()
 
 def update_fw():
-    with open("firmware.bin", "rb") as f:
+    with open("./build/firmware.bin", "rb") as f:
         data = f.read(4096)
         base = 0x01000
         while(data):
@@ -84,10 +81,10 @@ def update_fw():
             data = f.read(4096)
             base = base + 4096
     send_cmd(3, 0x01000)
-    # print(ser.read(1000))
+    # send_cmd(0, 0x01000)
+    print(ser.read(1000))
     ser.close()
 
-# print(ser.read(1000))
-update_code()
+# update_code()
 # update_boot()
-# update_fw()
+update_fw()

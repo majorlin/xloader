@@ -26,11 +26,11 @@ OBJS += $(addprefix $(BUILD_PATH)/,$(addsuffix .o,$(basename $(C_SRC))))
 
 DEFS += -D$(DEBUG)
 
-CFLAGS += -march=rv32im -W -Bstatic  -ffunction-sections -fmessage-length=0 -O1 -g -nostdlib
+CFLAGS += -march=rv32im -W -Bstatic  -ffunction-sections -fmessage-length=0 -O1 -g
 CFLAGS += -fomit-frame-pointer -fno-exceptions -fno-asynchronous-unwind-tables -fno-unwind-tables
 CFLAGS += $(DEFS)
 LDFLAGS += $(CFLAGS)
-# LDFLAGS += -specs=nano.specs
+LDFLAGS += -specs=nano.specs
 LDFLAGS +=  -T ./cpu/cpu.ld 
 LDLIBS = -lstdc++
 TARGET ?= $(BUILD_PATH)/firmware
@@ -71,4 +71,5 @@ $(BUILD_PATH)/%.o: %.S
 $(FIRMWARE): $(TARGET).bin size
 	python3 ../code/scripts/bin2hex.py $(TARGET).bin > $(TARGET).hex	
 	cp $(TARGET).hex .
+	python3 ./xloader.py
 .PHONY: clean

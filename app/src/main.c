@@ -17,13 +17,12 @@
  */
 
 #include "common.h"
-#define DELAY     (0x10)
 int main(void){
     uart_init(115200);
     // uart_init(25000000);
     QSPI->SCKDIV = 1;
     while(1){
-        printf("Hello world!\r\n");
+        printf("Hello world working!\r\n");
     }
     return 0;
 } 

@@ -26,7 +26,6 @@
 #include "cpu.h"
 
 #define BOARD_CLOCK_HZ      (100000000)
-#define NULL                (0)
 #define ARRAY_SIZE(x)       (sizeof(x) / sizeof(x[0]))
 
 typedef void (*p_isr_fun)(void);
