@@ -26,10 +26,10 @@ int main(void){
     cmd_t* cmd;
     cmd = (cmd_t*)0x6c00;
 #ifdef DEBUG
-    cmd->addr = 0x1000;
-    ram_jump_command(cmd);
+    // cmd->addr = 0x1000;
+    // ram_jump_command(cmd);
 #else
-    if(BOOT->BOOT_PIN){
+    if(0 == BOOT->BOOT_PIN){
         cmd->addr = 0x80000;
         fpga_reboot_command(cmd);
     }

@@ -22,7 +22,7 @@
 module testbench;
     reg clk;
     reg reset_n;
-    reg reboot_key=0;
+    reg reboot_key=1;
     wire [7:0] pads;
     always #10 clk = (clk === 1'b0);
 
@@ -38,11 +38,7 @@ module testbench;
         #160;
         $display("Chip reset done!");
         reset_n = 1;
-        repeat (1) begin
-            repeat (5000) @(posedge clk);
-        end
-        reboot_key = 1;
-        repeat (1) begin
+        repeat (2) begin
             repeat (5000) @(posedge clk);
         end
         $finish;
@@ -53,7 +49,7 @@ module testbench;
     always @(posedge clk) begin
         cycle_cnt <= cycle_cnt + 1;
     end
-
+    pullup(pads[0]);
     chip chip(
         .clk      (clk      ),
         .resetn   (reset_n  ),
