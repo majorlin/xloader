@@ -32,6 +32,7 @@ CFLAGS += $(DEFS)
 LDFLAGS += $(CFLAGS)
 LDFLAGS += -specs=nano.specs
 LDFLAGS +=  -T ./cpu/cpu.ld 
+LDFLAGS += -flto
 LDLIBS = -lstdc++
 TARGET ?= $(BUILD_PATH)/firmware
 FIRMWARE ?= $(TARGET).hex
@@ -70,5 +71,5 @@ $(BUILD_PATH)/%.o: %.S
 
 $(FIRMWARE): $(TARGET).bin size
 	python3 ../code/scripts/bin2hex.py $(TARGET).bin > $(TARGET).hex	
-	python3 ./xloader.py
+	python3 ./scripts/xloader.py
 .PHONY: clean

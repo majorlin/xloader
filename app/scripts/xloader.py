@@ -19,9 +19,9 @@
 ###
 import serial
 #with open("data.bin", "wb") as ser
-ser = serial.Serial("/dev/tty.usbserial-14310", 115200, timeout=1)
+ser = serial.Serial("/dev/tty.usbserial-14310", 115200, timeout=3)
 
-def send_cmd(cmdid:int, addr:int, data:bytes=b''):
+def send_cmd(cmdid:int, addr:int, data:bytes=b'', nocheck:bool=False):
     #with open("data.bin", "wb") as ser:
     ser.write(b'CMD')
     ser.write(cmdid.to_bytes(1, byteorder='little'))
@@ -32,7 +32,15 @@ def send_cmd(cmdid:int, addr:int, data:bytes=b''):
     ser.write(b'\0')
     ser.write(b'DMC')
     ser.flush()
-    print(ser.read(4))
+    echo = ser.read(4)
+    if echo == b'DONE' or nocheck:
+        if nocheck:
+            print(echo.decode('utf-8'), end='')
+        return True
+    else:
+        print(echo.decode('utf-8'), end='')
+        print("CMD failed, retrying....")
+        send_cmd(cmdid, addr, data)
 
 def update_code():
     with open("chip.bin", "rb") as f:
@@ -71,18 +79,19 @@ def update_boot():
     ser.close()
 
 def update_fw():
-    with open("../build/firmware.bin", "rb") as f:
+    with open("./build/firmware.bin", "rb") as f:
         data = f.read(4096)
         base = 0x01000
         while(data):
             print("Program: {:0>8X}".format(base))
             send_cmd(2, base, data)
-            # print(ser.read(1000))
             data = f.read(4096)
             base = base + 4096
-    send_cmd(3, 0x01000)
+    send_cmd(3, 0x01000, nocheck=True)
     # send_cmd(0, 0x01000)
-    print(ser.read(1000))
+    print(ser.read(1000).decode('utf-8'))
+    ser.write('gpio toggle=1\n'.encode())
+    print(ser.read(1000).decode('utf-8'))
     ser.close()
 
 # update_code()

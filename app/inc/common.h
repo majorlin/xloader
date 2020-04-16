@@ -21,6 +21,8 @@
 #define __COMMON_H_
 
 #include <stdint.h>
+#include <stdio.h>
+#include <stdlib.h>
 #include <stdarg.h>
 #include <assert.h>
 #include "cpu.h"
