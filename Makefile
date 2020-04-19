@@ -49,6 +49,7 @@ $(BUILD_PATH)/testbench.vvp: $(RTL_SRC)
 
 clean:
 	rm -rf testbench.vvp testbench.vcd $(BUILD_PATH)
+	rm frame_data_s6_rbt_out.txt firmware.hex
 
 $(TARGET).elf: $(OBJS) 
 	@echo	
